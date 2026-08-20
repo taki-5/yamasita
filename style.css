@@ -1,0 +1,314 @@
+  :root{
+    --bottle: #1C2B23;      /* ボトルグリーン - メインダーク */
+    --bottle-deep: #101B16;
+    --paper: #F1EBDB;       /* 生成り紙 - 背景 */
+    --paper-soft: #E9E1CC;
+    --amber: #B9813C;       /* 琥珀 - ウイスキーの色 */
+    --amber-light: #D7A868;
+    --wine: #5E2430;        /* 臙脂 - ワインのアクセント */
+    --brass: #B08A3E;       /* 真鍮のライン */
+    --sumi: #221E17;        /* 墨 */
+    --line: rgba(34,30,23,0.16);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--paper);
+    color:var(--sumi);
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    line-height:1.9;
+    overflow-x:hidden;
+    font-size:15.5px; /* ベースサイズを引き上げ（旧: 指定なし=16pxブラウザ既定を各要素で13px台に下げていた） */
+  }
+  h1,h2,h3,.mincho{ font-family:'Zen Old Mincho', serif; }
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 28px; }
+
+  /* ---------- フォーカス表示（キーボード操作対応） ---------- */
+  a:focus-visible,
+  button:focus-visible{
+    outline:2px solid var(--amber-light);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+  .lineup a:focus-visible,
+  .shopinfo a:focus-visible{
+    outline-color:var(--amber-light);
+  }
+
+  .eyebrow{
+    font-family:'Zen Old Mincho', serif;
+    font-size:13px; letter-spacing:0.34em; color:var(--amber);
+    display:flex; align-items:center; gap:14px; margin-bottom:22px;
+  }
+  .eyebrow::before{ content:""; width:26px; height:1px; background:var(--amber); }
+
+  /* ---------- ラベル短冊（シグネチャー要素） ---------- */
+  .label-tab{
+    position:fixed; top:0; z-index:90; height:100vh;
+    writing-mode:vertical-rl;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Zen Old Mincho', serif;
+    letter-spacing:0.5em; font-size:13px;
+    color:rgba(241,235,219,0.55);
+    pointer-events:none;
+    mix-blend-mode:difference;
+  }
+  .label-tab.left{ left:14px; }
+  .label-tab.right{ right:14px; }
+  @media (max-width:900px){ .label-tab{ display:none; } }
+
+  /* ---------- ヘッダー ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 40px;
+    mix-blend-mode:difference; color:var(--paper);
+  }
+  header .logo{ font-family:'Zen Old Mincho', serif; font-size:18px; letter-spacing:0.18em; font-weight:600;}
+  header nav{ display:flex; gap:30px; font-size:12.5px; letter-spacing:0.1em; align-items:center; }
+  header nav a:hover{ text-decoration:underline; text-underline-offset:5px; }
+
+  .nav-tel{
+    border:1px solid rgba(241,235,219,0.55); padding:8px 16px;
+    letter-spacing:0.06em; display:inline-flex; align-items:center; gap:8px;
+  }
+  .nav-line{
+    border:1px solid rgba(241,235,219,0.3); padding:8px 14px;
+    letter-spacing:0.06em; display:inline-flex; align-items:center; gap:6px;
+    opacity:0.85;
+  }
+
+  /* ハンバーガーボタン（デスクトップでは非表示） */
+  .burger{
+    display:none; width:30px; height:22px; position:relative;
+    background:none; border:none; cursor:pointer; z-index:200; padding:0;
+  }
+  .burger span{
+    position:absolute; left:0; right:0; height:1px; background:var(--paper);
+    transition:transform .35s ease, opacity .35s ease, top .35s ease;
+  }
+  .burger span:nth-child(1){ top:0; }
+  .burger span:nth-child(2){ top:10px; }
+  .burger span:nth-child(3){ top:20px; }
+  .burger.open span:nth-child(1){ top:10px; transform:rotate(45deg); }
+  .burger.open span:nth-child(2){ opacity:0; }
+  .burger.open span:nth-child(3){ top:10px; transform:rotate(-45deg); }
+
+  /* ---------- モバイルメニュー ---------- */
+  @media (max-width:760px){
+    header nav.desktop-nav{ display:none; }
+    .burger{ display:block; }
+
+    .mobile-nav{
+      position:fixed; inset:0; z-index:150;
+      background:var(--bottle-deep);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:30px;
+      opacity:0; visibility:hidden; transform:translateY(-12px);
+      transition:opacity .4s ease, transform .4s ease, visibility 0s linear .4s;
+    }
+    .mobile-nav.open{
+      opacity:1; visibility:visible; transform:translateY(0);
+      transition:opacity .4s ease, transform .4s ease, visibility 0s linear 0s;
+    }
+    .mobile-nav a{
+      font-family:'Zen Old Mincho', serif; font-size:20px; letter-spacing:0.1em;
+      color:var(--paper);
+    }
+    .mobile-nav .mobile-tel,
+    .mobile-nav .mobile-line{
+      margin-top:6px; border:1px solid var(--amber-light); color:var(--amber-light);
+      padding:12px 30px; font-size:14px; letter-spacing:0.08em;
+      font-family:'Zen Kaku Gothic New', sans-serif;
+    }
+  }
+
+  /* ---------- スマホ用 常時CTAバー ---------- */
+  .mobile-cta-bar{ display:none; }
+  @media (max-width:760px){
+    .mobile-cta-bar{
+      display:flex; position:fixed; left:0; right:0; bottom:0; z-index:120;
+      background:var(--bottle-deep); border-top:1px solid rgba(241,235,219,0.2);
+    }
+    .mobile-cta-bar a{
+      flex:1; text-align:center; padding:14px 8px; color:var(--paper);
+      font-size:12px; letter-spacing:0.03em; display:flex; flex-direction:column;
+      align-items:center; gap:2px;
+    }
+    .mobile-cta-bar a:first-child{ background:var(--amber); color:var(--bottle-deep); font-weight:700; }
+    .mobile-cta-bar .ico{ font-size:16px; }
+    body{ padding-bottom:60px; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; height:100svh; min-height:660px;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(185,129,60,0.16), transparent 60%),
+      linear-gradient(180deg, rgba(16,27,22,0.88) 0%, rgba(16,27,22,0.94) 100%),
+      url('https://images.unsplash.com/photo-1716720882232-9fa4912f142d?auto=format&fit=crop&w=1800&q=70') center 30%/cover no-repeat;
+    color:var(--paper); overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:repeating-linear-gradient(180deg, rgba(241,235,219,0.035) 0 1px, transparent 1px 5px);
+    opacity:0.5;
+  }
+  .hero-frame{
+    position:relative; z-index:2; padding:64px 56px;
+    border:1px solid rgba(185,129,60,0.55);
+  }
+  .hero-frame::before, .hero-frame::after{
+    content:""; position:absolute; width:14px; height:14px;
+    border:1px solid var(--amber-light);
+  }
+  .hero-frame::before{ top:-8px; left:-8px; border-right:none; border-bottom:none; }
+  .hero-frame::after{ bottom:-8px; right:-8px; border-left:none; border-top:none; }
+  .hero-est{ font-size:12px; letter-spacing:0.4em; color:var(--amber-light); margin-bottom:22px; }
+  .hero h1{
+    font-size:clamp(30px, 4.6vw, 50px); font-weight:600; line-height:1.65;
+    letter-spacing:0.06em;
+  }
+  .hero-sub{
+    margin-top:22px; font-size:14.5px; letter-spacing:0.14em; opacity:0.75;
+    font-family:'Zen Kaku Gothic New', sans-serif;
+  }
+  .hero-cta{ display:flex; gap:16px; justify-content:center; margin-top:40px; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px; padding:14px 28px;
+    font-size:13.5px; letter-spacing:0.1em; border:1px solid rgba(241,235,219,0.5);
+    transition:all .35s ease;
+  }
+  .btn-solid{ background:var(--amber); color:var(--bottle-deep); border-color:var(--amber); font-weight:700; }
+  .btn-solid:hover{ background:var(--amber-light); }
+  .btn-line:hover{ background:rgba(241,235,219,0.1); border-color:var(--paper); }
+
+  /* ---------- セクション区切り 短冊バー ---------- */
+  .strip{
+    position:relative; height:64px; background:var(--brass);
+    display:flex; align-items:center; overflow:hidden;
+  }
+  .strip .mark{
+    font-family:'Zen Old Mincho', serif; color:var(--bottle-deep);
+    font-size:13px; letter-spacing:0.4em; padding-left:40px;
+  }
+  .strip::after{
+    content:""; position:absolute; right:0; top:0; bottom:0; width:70%;
+    background:repeating-linear-gradient(135deg, rgba(16,27,22,0.08) 0 2px, transparent 2px 14px);
+  }
+
+  section{ padding:110px 0; position:relative; }
+  .section-head{ max-width:640px; margin-bottom:60px; }
+  .section-head h2{ font-size:clamp(28px,3.6vw,40px); font-weight:600; line-height:1.5; }
+  .section-head p{ margin-top:18px; font-size:15.5px; opacity:0.82; max-width:52ch; }
+
+  /* ---------- 写真フレーム（共通） ---------- */
+  .photo-frame{ position:relative; overflow:hidden; background:var(--bottle-deep); }
+  .photo-frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .photo-caption{
+    position:absolute; left:0; bottom:0; right:0;
+    background:linear-gradient(0deg, rgba(16,27,22,0.82), transparent);
+    color:var(--paper); font-family:'Zen Old Mincho', serif;
+    font-size:12px; letter-spacing:0.16em; padding:20px 22px 16px;
+  }
+  .concept-photo{ margin-top:64px; height:340px; border:1px solid var(--brass); }
+  @media (max-width:820px){ .concept-photo{ height:220px; } }
+
+  .lineup-item .photo-frame{ width:100%; height:180px; margin-top:18px; border:1px solid rgba(241,235,219,0.2); }
+
+  /* ---------- 選ばれる理由（信頼づくり） ---------- */
+  .reasons{ background:var(--paper-soft); }
+  .reasons-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .reason-card{ background:var(--paper-soft); padding:36px 30px; }
+  .reason-card .no{ font-family:'Zen Old Mincho', serif; font-size:26px; color:var(--amber); }
+  .reason-card h3{ font-size:17.5px; margin:14px 0 10px; font-weight:600; }
+  .reason-card p{ font-size:14.5px; opacity:0.8; }
+  @media (max-width:800px){ .reasons-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- CONCEPT ---------- */
+  .concept{ background:var(--paper); }
+  .concept-grid{ display:grid; grid-template-columns:1fr 1fr; gap:70px; }
+  .concept-block{ border-top:1px solid var(--line); padding-top:28px; }
+  .concept-block .no{ font-family:'Zen Old Mincho', serif; font-size:12px; letter-spacing:0.3em; color:var(--amber); }
+  .concept-block h3{ font-size:22.5px; margin:16px 0 16px; font-weight:600; }
+  .concept-block p{ font-size:15.5px; opacity:0.85; }
+  @media (max-width:820px){ .concept-grid{ grid-template-columns:1fr; gap:44px; } }
+
+  /* ---------- LINEUP ---------- */
+  .lineup{ background:var(--bottle); color:var(--paper); }
+  .lineup .eyebrow{ color:var(--amber-light); }
+  .lineup .eyebrow::before{ background:var(--amber-light); }
+  .lineup-grid{ display:flex; flex-direction:column; gap:1px; background:rgba(241,235,219,0.14); border:1px solid rgba(241,235,219,0.14); }
+  .lineup-item{
+    display:grid; grid-template-columns:120px 1fr 1.2fr; gap:36px;
+    background:var(--bottle); padding:40px 36px; align-items:start;
+    transition:background .4s ease;
+  }
+  .lineup-item:hover{ background:var(--bottle-deep); }
+  .lineup-item .tag{
+    font-family:'Zen Old Mincho', serif; writing-mode:vertical-rl; letter-spacing:0.4em;
+    font-size:14px; color:var(--amber-light); border-right:1px solid rgba(241,235,219,0.2);
+    padding-right:20px; height:100%;
+  }
+  .lineup-item h3{ font-size:23px; font-weight:600; }
+  .lineup-item .en{ font-size:11px; letter-spacing:0.2em; color:var(--amber-light); margin-top:8px; display:block;}
+  .lineup-item p{ font-size:15px; opacity:0.82; }
+  .lineup-item .examples{ margin-top:14px; font-size:13px; opacity:0.65; letter-spacing:0.02em; }
+  @media (max-width:800px){
+    .lineup-item{ grid-template-columns:1fr; gap:16px; }
+    .lineup-item .tag{ writing-mode:horizontal-tb; border-right:none; border-bottom:1px solid rgba(241,235,219,0.2); padding-right:0; padding-bottom:12px; height:auto; }
+  }
+
+  /* ---------- GIFT ---------- */
+  .gift{ background:var(--paper-soft); }
+  .gift-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:64px; align-items:center; }
+  .gift-photo{ height:100%; min-height:320px; border:1px solid var(--brass); }
+  .gift-card{ background:var(--paper); border:1px solid var(--brass); padding:40px; position:relative; }
+  .gift-card::before{ content:""; position:absolute; inset:6px; border:1px solid rgba(176,138,62,0.4); pointer-events:none; }
+  .gift-card h3{ font-size:20.5px; margin-bottom:16px; }
+  .gift-card ul{ list-style:none; font-size:14.5px; }
+  .gift-card li{ padding:10px 0; border-top:1px dashed var(--line); display:flex; justify-content:space-between; }
+  .gift-card li:first-child{ border-top:none; }
+  @media (max-width:820px){ .gift-grid{ grid-template-columns:1fr; gap:36px; } }
+
+  /* ---------- SHOP INFO ---------- */
+  .shopinfo{ background:var(--bottle-deep); color:var(--paper); }
+  .shopinfo .eyebrow{ color:var(--amber-light); }
+  .shopinfo .eyebrow::before{ background:var(--amber-light); }
+  .info-grid{ display:grid; grid-template-columns:1fr 1fr; gap:64px; }
+  .info-list{ display:flex; flex-direction:column; border-top:1px solid rgba(241,235,219,0.2); }
+  .info-row{ display:flex; justify-content:space-between; padding:22px 0; border-bottom:1px solid rgba(241,235,219,0.2); font-size:14.5px; gap:20px; }
+  .info-row dt{ letter-spacing:0.14em; opacity:0.6; white-space:nowrap; }
+  .info-row dd{ font-family:'Zen Old Mincho', serif; font-size:16.5px; text-align:right; }
+  .map-box{
+    background:rgba(241,235,219,0.06); border:1px solid rgba(241,235,219,0.3);
+    min-height:300px; display:flex; align-items:center; justify-content:center;
+    font-family:'Zen Old Mincho', serif; letter-spacing:0.14em; font-size:14px;
+    text-align:center; padding:20px; opacity:0.85;
+  }
+  .contact-alt{
+    display:flex; gap:14px; margin-top:14px; flex-wrap:wrap;
+  }
+  .contact-alt a{
+    flex:1; min-width:140px; text-align:center; padding:12px 14px;
+    font-size:13px; letter-spacing:0.05em;
+    border:1px solid rgba(241,235,219,0.3);
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    opacity:0.85; transition:opacity .3s ease, background .3s ease;
+  }
+  .contact-alt a:hover{ opacity:1; background:rgba(241,235,219,0.08); }
+  @media (max-width:820px){ .info-grid{ grid-template-columns:1fr; gap:36px; } }
+
+  footer{ background:var(--bottle-deep); color:rgba(241,235,219,0.65); padding:56px 0 30px; font-size:13px; border-top:1px solid rgba(241,235,219,0.14); }
+  .footer-top{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:24px; padding-bottom:34px; border-bottom:1px solid rgba(241,235,219,0.14); }
+  .footer-logo{ font-family:'Zen Old Mincho', serif; font-size:22px; color:var(--paper); }
+  footer .bottom{ display:flex; justify-content:space-between; padding-top:22px; flex-wrap:wrap; gap:10px; opacity:0.6; }
+
+  .fade-up{ opacity:0; transform:translateY(26px); transition:opacity .8s ease, transform .8s ease; }
+  .fade-up.show{ opacity:1; transform:translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
